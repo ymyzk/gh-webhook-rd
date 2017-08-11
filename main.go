@@ -48,7 +48,8 @@ func main() {
 	if err != nil {
 		logger.Panicln(err)
 	}
-	logger.Printf("Config: %+v\n", config)
+	logger.Printf("Rundeck URL: %s\n", config.Rundeck.URL)
+	logger.Printf("%d webhook endpoint(s) are configured\n", len(config.Hooks))
 
 	server, err := NewServer(&config, logger)
 	if err != nil {

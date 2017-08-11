@@ -131,6 +131,7 @@ func (s *Server) handler(w http.ResponseWriter, r *http.Request) {
 func (s *Server) Start() {
 	sc := s.Config.Server
 	hp := fmt.Sprintf("%s:%d", sc.Host, sc.Port)
+	s.Logger.Printf("Listening on %s\n", hp)
 	http.HandleFunc("/webhook/", s.handler)
 	http.ListenAndServe(hp, nil)
 }
