@@ -98,6 +98,7 @@ func (s *Server) handler(w http.ResponseWriter, r *http.Request) {
 	ok, err = s.Client.RunJob(ctx, hook.JobID)
 	if err != nil {
 		http.Error(w, "Failed to run a job", http.StatusInternalServerError)
+		return
 	}
 
 	fmt.Fprint(w, "OK")
