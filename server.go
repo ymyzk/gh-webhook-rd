@@ -45,7 +45,7 @@ func NewServer(config *Config, logger *log.Logger) (*Server, error) {
 		Logger: logger,
 		Client: client,
 		hooks:  hooks,
-		re:     regexp.MustCompile("^/webhook/([a-zA-Z0-9_-]+)$"),
+		re:     regexp.MustCompile("^/webhook/([a-zA-Z0-9_-]*)$"),
 	}
 	return &server, nil
 }
@@ -56,9 +56,16 @@ func (s *Server) handler(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
+	hookURL := m[1]
+
+	// If URL is an endpoint for healthcheck
+	if hookURL == "" {
+		fmt.Fprint(w, "OK")
+		return
+	}
 
 	// Validate Webhook URL
-	hook, ok := s.hooks[m[1]]
+	hook, ok := s.hooks[hookURL]
 	if !ok {
 		http.NotFound(w, r)
 		return
