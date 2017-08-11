@@ -1,4 +1,7 @@
 # gh-webhook-rd
+
+[![Build Status](https://travis-ci.org/ymyzk/gh-webhook-rd.svg?branch=master)](https://travis-ci.org/ymyzk/gh-webhook-rd)
+
 **gh-webhook-rd** is a simple application that starts a job in Rundeck when receiving a webhook from GitHub.
 
 ## Getting Started
