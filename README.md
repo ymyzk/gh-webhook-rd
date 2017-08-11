@@ -30,8 +30,13 @@ url = "http://localhost:4440"
 auth_token = "L3o8Gnn6yizg8v4vnDSSCOkpfcDFYWH5"
 
 [[hooks]]
+# Required: Webhook endpoint URL
 url = "hello"
+# Optional: Webhook HMAC key (https://developer.github.com/webhooks/securing/)
+secret = "secret key"
+# Required
 branch = "refs/head/master"
+# Required: Rundeck Job ID
 job_id = "12344567-d8d5-49ff-ac95-1dfabf837561"
 
 [[hooks]]

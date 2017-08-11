@@ -26,6 +26,7 @@ type RundeckConfig struct {
 
 type HookConfig struct {
 	URL    string
+	Secret string
 	Branch string
 	JobID  string `toml:"job_id"`
 }

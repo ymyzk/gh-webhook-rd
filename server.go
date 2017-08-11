@@ -1,6 +1,9 @@
 package main
 
 import (
+	"crypto/hmac"
+	"crypto/sha1"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -75,11 +78,32 @@ func (s *Server) handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Receive request body
+	defer r.Body.Close()
+	bodyBytes, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, "Failed to receive body", http.StatusBadRequest)
+		return
+	}
+
+	// Verify HMAC
+	if signature := r.Header.Get("X-Hub-Signature"); signature != "" {
+		if hook.Secret == "" {
+			s.Logger.Println("Skipping HMAC verification")
+		} else {
+			mac := hmac.New(sha1.New, []byte(hook.Secret))
+			mac.Write(bodyBytes)
+			expected := "sha1=" + hex.EncodeToString(mac.Sum(nil))
+			if signature != expected {
+				http.Error(w, "Failed to verify HMAC", http.StatusBadRequest)
+				return
+			}
+		}
+	}
+
 	// Parse payload
 	var payload Payload
-	decoder := json.NewDecoder(r.Body)
-	defer r.Body.Close()
-	err := decoder.Decode(&payload)
+	err = json.Unmarshal(bodyBytes, &payload)
 	if err != nil {
 		http.Error(w, "Failed to parse body", http.StatusBadRequest)
 		return
