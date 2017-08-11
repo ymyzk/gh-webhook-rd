@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"os"
 
@@ -29,7 +30,11 @@ type HookConfig struct {
 	JobID  string `toml:"job_id"`
 }
 
+var configFile = flag.String("c", "config.toml", "configutation file")
+
 func main() {
+	flag.Parse()
+
 	logger := log.New(os.Stdout, "", log.Ldate|log.Ltime|log.Lshortfile)
 
 	config := Config{
@@ -38,7 +43,7 @@ func main() {
 			Port: 8080,
 		},
 	}
-	_, err := toml.DecodeFile("config.toml", &config)
+	_, err := toml.DecodeFile(*configFile, &config)
 	if err != nil {
 		logger.Panicln(err)
 	}
