@@ -118,7 +118,7 @@ func (s *Server) handler(w http.ResponseWriter, r *http.Request) {
 	s.Logger.Printf("Payload: %+v\n", payload)
 
 	// Validate branch
-	if hook.Branch == payload.Ref {
+	if hook.Branch != payload.Ref {
 		http.Error(w, "Unsupported ref", http.StatusAccepted)
 		return
 	}

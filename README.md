@@ -9,11 +9,11 @@
 - [Obtain an API token](http://rundeck.org/docs/api/#token-authentication) to start jobs in Rundeck
 - Write configuration.  Example:
   - Webhook URL: `http://<host>:<port>/webhook/hello`
-  - If branch is `refs/head/master`, then start a job with id `12344567-d8d5-49ff-ac95-1dfabf837561`
+  - If branch is `refs/heads/master`, then start a job with id `12344567-d8d5-49ff-ac95-1dfabf837561`
 ```toml
 [[hooks]]
 url = "hello"
-branch = "refs/head/master"
+branch = "refs/heads/master"
 job_id = "12344567-d8d5-49ff-ac95-1dfabf837561"
 ```
 - [Set up a Webhook in your repository](https://developer.github.com/webhooks/creating/)
@@ -38,12 +38,12 @@ url = "hello"
 # Optional: Webhook HMAC key (https://developer.github.com/webhooks/securing/)
 secret = "secret key"
 # Required
-branch = "refs/head/master"
+branch = "refs/heads/master"
 # Required: Rundeck Job ID
 job_id = "12344567-d8d5-49ff-ac95-1dfabf837561"
 
 [[hooks]]
 url = "hello"
-branch = "refs/head/master"
+branch = "refs/heads/master"
 job_id = "98765432-d8d5-49ff-ac95-1dfabf837561"
 ```
